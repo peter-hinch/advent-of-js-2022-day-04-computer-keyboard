@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#keyboard .keyboard__container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 45px;
+  background: #f7f7f7;
+  border-radius: 40px;
+}
+
+#keyboard .keyboard__row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#keyboard .keyboard__container button.keyboard__key {
+  box-sizing: border-box;
+  min-width: 65px;
+  height: 65px;
+  color: #60c1b6;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  background: #fff;
+  border: none;
+  box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+}
+
+#keyboard .keyboard__container button.keyboard__key.key__special {
+  min-width: 109px;
+  color: #868888;
+}
+
+#keyboard .keyboard__container button.keyboard__key.key__special.key__del,
+#keyboard .keyboard__container button.keyboard__key.key__special.key__tab {
+  width: 108.5px;
+}
+#keyboard .keyboard__container button.keyboard__key.key__special.key__caps {
+  width: 129px;
+}
+#keyboard .keyboard__container button.keyboard__key.key__special.key__enter {
+  width: 121px;
+}
+#keyboard .keyboard__container button.keyboard__key.key__special.key__shift {
+  width: 163px;
+}
