@@ -1,8 +1,24 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import 'normalize.css';
 import './App.css';
 
 function App() {
+  const [correctKeyCount, setCorrectKeyCount] = useState<number>();
+  const [missedKeyCount, setMissedKeyCount] = useState<number>();
+  const [timeRemaining, setTimeRemaining] = useState<number>();
+
+  // Add an event listener to handle a key press anywhere on the page
+  // Reference: https://stackoverflow.com/questions/61740073/how-to-detect-keydown-anywhere-on-page-in-a-react-app
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const handleKeyDown = (event: any) => {
+    console.log(event);
+  };
+
   return (
     <section id="keyboard">
       <div className="keyboard__container">
@@ -34,8 +50,8 @@ function App() {
           <button className="keyboard__key">I</button>
           <button className="keyboard__key">O</button>
           <button className="keyboard__key">P</button>
-          <button className="keyboard__key">[</button>
-          <button className="keyboard__key">]</button>
+          <button className="keyboard__key">{`[`}</button>
+          <button className="keyboard__key">{`]`}</button>
           <button className="keyboard__key">\</button>
         </div>
         <div className="keyboard__row">
