@@ -83,12 +83,16 @@ const getNextCode = () => {
 };
 
 const App = () => {
+  const gameLength = 60;
+  const defaultFeedback = 'Eyes on the screen';
+
   const [targetCode, setTargetCode] = useState<string>('');
   const [feedbackMessage, setFeedbackMessage] =
-    useState<string>('Eyes on the screen');
+    useState<string>(defaultFeedback);
   const [correctKeyCount, setCorrectKeyCount] = useState<number>(0);
   const [missedKeyCount, setMissedKeyCount] = useState<number>(0);
-  const [secondsRemaining, setSecondsRemaining] = useState<number>(60);
+  const [timerRunning, setTimerRunning] = useState<boolean>(false);
+  const [timeRemaining, setTimeRemaining] = useState<number>(gameLength);
 
   useEffect(() => {
     if (targetCode === '') {
@@ -99,11 +103,19 @@ const App = () => {
   // Add an event listener to handle key presses anywhere on the page
   // Reference: https://stackoverflow.com/questions/61740073/how-to-detect-keydown-anywhere-on-page-in-a-react-app
   const handleKeyDown = (event: KeyboardEvent) => {
+    if (!timerRunning) {
+      setTimeRemaining(gameLength);
+      setCorrectKeyCount(0);
+      setMissedKeyCount(0);
+      setFeedbackMessage(defaultFeedback);
+      setTimerRunning(true);
+    }
     if (event?.code === targetCode) {
       setCorrectKeyCount((prev) => prev + 1);
       setTargetCode(getNextCode());
     } else {
       setMissedKeyCount((prev) => prev + 1);
+      setTargetCode(getNextCode());
     }
   };
 
@@ -111,11 +123,30 @@ const App = () => {
     document.addEventListener('keydown', handleKeyDown);
 
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [targetCode]);
+  }, [targetCode, timerRunning]);
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (timerRunning && timeRemaining > 0) {
+      interval = setInterval(() => {
+        setTimeRemaining((prev) => prev - 1);
+      }, 1000);
+    }
+    if (timeRemaining <= 0) {
+      setTimerRunning(false);
+      setFeedbackMessage(
+        `Time's up! You typed ${correctKeyCount} correct keys, and missed ${missedKeyCount}. Press the jiggling key to try again.`
+      );
+    }
+    return () => clearInterval(interval);
+  }, [timerRunning, timeRemaining]);
 
   return (
     <section id="keyboard">
-      <div className="keyboard__feedback">{feedbackMessage}</div>
+      <div className="keyboard__feedback">
+        {feedbackMessage}{' '}
+        {timerRunning && timeRemaining && `- ${timeRemaining} seconds to go`}
+      </div>
       <div className="keyboard__container">
         {keys.map((row, index) => (
           <KeyboardRow

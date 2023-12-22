@@ -6,12 +6,19 @@ For my submissions to Advent of JS, I have taken the approach of first completin
 
 The requirements for functionality can be viewed in the [README.md](./STARTER-FILES/README.md) included with the starter files.
 
+## Additional functionality
+
+- [x] Keep track of how many keys are successfully typed correctly the first time.
+- [x] Keep track of how many keys are missed.
+- [x] Time the user to see how many successful keypresses they can get within a given amount of time.
+
 Please feel free to check out my other Advent of JS repos:
 
 - [Day 1 - Pomodoro Timer](https://github.com/peter-hinch/advent-of-js-2022-day-01-pomodoro-timer)
 - [Day 2 - E-Commerce Component](https://github.com/peter-hinch/advent-of-js-2022-day-02-ecommerce-component)
 - [Day 3 - Piano](https://github.com/peter-hinch/advent-of-js-2022-day-03-piano)
 - Day 4 - Computer Keyboard
+- Day 5 - Multi-select
 
 I have also participated in Advent of CSS. You can check out these repos, here:
 
