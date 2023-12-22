@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import 'normalize.css';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "normalize.css";
+import "./App.css";
 
 interface Key {
   code: string;
@@ -15,66 +15,66 @@ interface Row {
 
 const keys = [
   [
-    { code: `Backquote`, text: '`' },
-    { code: 'Digit1', text: '1' },
-    { code: 'Digit2', text: '2' },
-    { code: 'Digit3', text: '3' },
-    { code: 'Digit4', text: '4' },
-    { code: 'Digit5', text: '5' },
-    { code: 'Digit6', text: '6' },
-    { code: 'Digit7', text: '7' },
-    { code: 'Digit8', text: '8' },
-    { code: 'Digit9', text: '9' },
-    { code: 'Digit0', text: '0' },
-    { code: 'Minus', text: '-' },
-    { code: 'Equal', text: '=' },
-    { code: 'Backspace', text: 'DEL', classes: 'key__special key__del' }
+    { code: `Backquote`, text: "`" },
+    { code: "Digit1", text: "1" },
+    { code: "Digit2", text: "2" },
+    { code: "Digit3", text: "3" },
+    { code: "Digit4", text: "4" },
+    { code: "Digit5", text: "5" },
+    { code: "Digit6", text: "6" },
+    { code: "Digit7", text: "7" },
+    { code: "Digit8", text: "8" },
+    { code: "Digit9", text: "9" },
+    { code: "Digit0", text: "0" },
+    { code: "Minus", text: "-" },
+    { code: "Equal", text: "=" },
+    { code: "Backspace", text: "DEL", classes: "key__special key__del" },
   ],
   [
-    { code: 'Tab', text: 'TAB', classes: 'key__special key__tab' },
-    { code: 'KeyQ', text: 'Q' },
-    { code: 'KeyW', text: 'W' },
-    { code: 'KeyE', text: 'E' },
-    { code: 'KeyR', text: 'R' },
-    { code: 'KeyT', text: 'T' },
-    { code: 'KeyY', text: 'Y' },
-    { code: 'KeyU', text: 'U' },
-    { code: 'KeyI', text: 'I' },
-    { code: 'KeyO', text: 'O' },
-    { code: 'KeyP', text: 'P' },
-    { code: 'BracketLeft', text: '[' },
-    { code: 'BracketRight', text: ']' },
-    { code: 'Backslash', text: '\\' }
+    { code: "Tab", text: "TAB", classes: "key__special key__tab" },
+    { code: "KeyQ", text: "Q" },
+    { code: "KeyW", text: "W" },
+    { code: "KeyE", text: "E" },
+    { code: "KeyR", text: "R" },
+    { code: "KeyT", text: "T" },
+    { code: "KeyY", text: "Y" },
+    { code: "KeyU", text: "U" },
+    { code: "KeyI", text: "I" },
+    { code: "KeyO", text: "O" },
+    { code: "KeyP", text: "P" },
+    { code: "BracketLeft", text: "[" },
+    { code: "BracketRight", text: "]" },
+    { code: "Backslash", text: "\\" },
   ],
   [
-    { code: 'CapsLock', text: 'CAPS', classes: 'key__special key__caps' },
-    { code: 'KeyA', text: 'A' },
-    { code: 'KeyS', text: 'S' },
-    { code: 'KeyD', text: 'D' },
-    { code: 'KeyF', text: 'F' },
-    { code: 'KeyG', text: 'G' },
-    { code: 'KeyH', text: 'H' },
-    { code: 'KeyJ', text: 'J' },
-    { code: 'KeyK', text: 'K' },
-    { code: 'KeyL', text: 'L' },
-    { code: 'Semicolon', text: ';' },
-    { code: 'Quote', text: `'` },
-    { code: 'Enter', text: 'ENTER', classes: 'key__special key__enter' }
+    { code: "CapsLock", text: "CAPS", classes: "key__special key__caps" },
+    { code: "KeyA", text: "A" },
+    { code: "KeyS", text: "S" },
+    { code: "KeyD", text: "D" },
+    { code: "KeyF", text: "F" },
+    { code: "KeyG", text: "G" },
+    { code: "KeyH", text: "H" },
+    { code: "KeyJ", text: "J" },
+    { code: "KeyK", text: "K" },
+    { code: "KeyL", text: "L" },
+    { code: "Semicolon", text: ";" },
+    { code: "Quote", text: `'` },
+    { code: "Enter", text: "ENTER", classes: "key__special key__enter" },
   ],
   [
-    { code: 'ShiftLeft', text: 'SHIFT', classes: 'key__special key__shift' },
-    { code: 'KeyZ', text: 'Z' },
-    { code: 'KeyX', text: 'X' },
-    { code: 'KeyC', text: 'C' },
-    { code: 'KeyV', text: 'V' },
-    { code: 'KeyB', text: 'B' },
-    { code: 'KeyN', text: 'N' },
-    { code: 'KeyM', text: 'M' },
-    { code: 'Comma', text: ',' },
-    { code: 'Period', text: '.' },
-    { code: 'Slash', text: '/' },
-    { code: 'ShiftRight', text: 'SHIFT', classes: 'key__special key__shift' }
-  ]
+    { code: "ShiftLeft", text: "SHIFT", classes: "key__special key__shift" },
+    { code: "KeyZ", text: "Z" },
+    { code: "KeyX", text: "X" },
+    { code: "KeyC", text: "C" },
+    { code: "KeyV", text: "V" },
+    { code: "KeyB", text: "B" },
+    { code: "KeyN", text: "N" },
+    { code: "KeyM", text: "M" },
+    { code: "Comma", text: "," },
+    { code: "Period", text: "." },
+    { code: "Slash", text: "/" },
+    { code: "ShiftRight", text: "SHIFT", classes: "key__special key__shift" },
+  ],
 ];
 
 const getNextCode = () => {
@@ -84,9 +84,9 @@ const getNextCode = () => {
 
 const App = () => {
   const gameLength = 60;
-  const defaultFeedback = 'Eyes on the screen';
+  const defaultFeedback = "Eyes on the screen";
 
-  const [targetCode, setTargetCode] = useState<string>('');
+  const [targetCode, setTargetCode] = useState<string>("");
   const [feedbackMessage, setFeedbackMessage] =
     useState<string>(defaultFeedback);
   const [correctKeyCount, setCorrectKeyCount] = useState<number>(0);
@@ -95,7 +95,7 @@ const App = () => {
   const [timeRemaining, setTimeRemaining] = useState<number>(gameLength);
 
   useEffect(() => {
-    if (targetCode === '') {
+    if (targetCode === "") {
       setTargetCode(getNextCode());
     }
   }, []);
@@ -120,9 +120,9 @@ const App = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [targetCode, timerRunning]);
 
   useEffect(() => {
@@ -144,7 +144,7 @@ const App = () => {
   return (
     <section id="keyboard">
       <div className="keyboard__feedback">
-        {feedbackMessage}{' '}
+        {feedbackMessage}{" "}
         {timerRunning && timeRemaining && `- ${timeRemaining} seconds to go`}
       </div>
       <div className="keyboard__container">
@@ -162,7 +162,7 @@ const App = () => {
 
 const KeyboardRow: React.FC<Row & { targetCode: string }> = ({
   row,
-  targetCode
+  targetCode,
 }) => {
   return (
     <div className="keyboard__row">
@@ -183,7 +183,7 @@ const KeyboardKey: React.FC<Key> = ({ code, text, classes, isJiggling }) => {
   return (
     <button
       id={`key-${code}`}
-      className={`keyboard__key ${classes} ${isJiggling && 'key__jiggling'}`}
+      className={`keyboard__key ${classes} ${isJiggling && "key__jiggling"}`}
     >
       {text}
     </button>
