@@ -6,6 +6,17 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  color: #60c1b6;
+  font-family: 'Inter', sans-serif;
+}
+
+#keyboard .keyboard__feedback {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 #keyboard .keyboard__container {
@@ -30,7 +41,6 @@ body {
   min-width: 65px;
   height: 65px;
   color: #60c1b6;
-  font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 24px;
   line-height: 29px;
@@ -39,6 +49,23 @@ body {
   border: none;
   box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.05);
   border-radius: 16px;
+}
+
+#keyboard .keyboard__container button.keyboard__key.key__jiggling {
+  animation: 0.25s jiggle infinite running;
+  color: #fff;
+  background: #60c1b6;
+}
+
+@keyframes jiggle {
+  33% {
+    translate: 0 1px;
+    transform: rotate(2deg);
+  }
+  66% {
+    translate: 0 -1px;
+    transform: rotate(-4deg);
+  }
 }
 
 #keyboard .keyboard__container button.keyboard__key.key__special {
