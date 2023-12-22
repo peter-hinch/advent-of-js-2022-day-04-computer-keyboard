@@ -1,191 +1,162 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'normalize.css';
 import './App.css';
 
-function App() {
-  const [correctKeyCount, setCorrectKeyCount] = useState<number>();
-  const [missedKeyCount, setMissedKeyCount] = useState<number>();
-  const [timeRemaining, setTimeRemaining] = useState<number>();
+interface Key {
+  code: string;
+  text: string;
+  classes?: string | undefined;
+  isJiggling?: boolean | undefined;
+}
+interface Row {
+  row: Key[];
+  targetCode: string;
+}
+
+const keys = [
+  [
+    { code: `Backquote`, text: '`' },
+    { code: 'Digit1', text: '1' },
+    { code: 'Digit2', text: '2' },
+    { code: 'Digit3', text: '3' },
+    { code: 'Digit4', text: '4' },
+    { code: 'Digit5', text: '5' },
+    { code: 'Digit6', text: '6' },
+    { code: 'Digit7', text: '7' },
+    { code: 'Digit8', text: '8' },
+    { code: 'Digit9', text: '9' },
+    { code: 'Digit0', text: '0' },
+    { code: 'Minus', text: '-' },
+    { code: 'Equal', text: '=' },
+    { code: 'Backspace', text: 'DEL', classes: 'key__special key__del' }
+  ],
+  [
+    { code: 'Tab', text: 'TAB', classes: 'key__special key__tab' },
+    { code: 'KeyQ', text: 'Q' },
+    { code: 'KeyW', text: 'W' },
+    { code: 'KeyE', text: 'E' },
+    { code: 'KeyR', text: 'R' },
+    { code: 'KeyT', text: 'T' },
+    { code: 'KeyY', text: 'Y' },
+    { code: 'KeyU', text: 'U' },
+    { code: 'KeyI', text: 'I' },
+    { code: 'KeyO', text: 'O' },
+    { code: 'KeyP', text: 'P' },
+    { code: 'BracketLeft', text: '[' },
+    { code: 'BracketRight', text: ']' },
+    { code: 'Backslash', text: '\\' }
+  ],
+  [
+    { code: 'CapsLock', text: 'CAPS', classes: 'key__special key__caps' },
+    { code: 'KeyA', text: 'A' },
+    { code: 'KeyS', text: 'S' },
+    { code: 'KeyD', text: 'D' },
+    { code: 'KeyF', text: 'F' },
+    { code: 'KeyG', text: 'G' },
+    { code: 'KeyH', text: 'H' },
+    { code: 'KeyJ', text: 'J' },
+    { code: 'KeyK', text: 'K' },
+    { code: 'KeyL', text: 'L' },
+    { code: 'Semicolon', text: ';' },
+    { code: 'Quote', text: `'` },
+    { code: 'Enter', text: 'ENTER', classes: 'key__special key__enter' }
+  ],
+  [
+    { code: 'ShiftLeft', text: 'SHIFT', classes: 'key__special key__shift' },
+    { code: 'KeyZ', text: 'Z' },
+    { code: 'KeyX', text: 'X' },
+    { code: 'KeyC', text: 'C' },
+    { code: 'KeyV', text: 'V' },
+    { code: 'KeyB', text: 'B' },
+    { code: 'KeyN', text: 'N' },
+    { code: 'KeyM', text: 'M' },
+    { code: 'Comma', text: ',' },
+    { code: 'Period', text: '.' },
+    { code: 'Slash', text: '/' },
+    { code: 'ShiftRight', text: 'SHIFT', classes: 'key__special key__shift' }
+  ]
+];
+
+const getNextCode = () => {
+  const codes = keys.flat(1).map((key) => key.code);
+  return codes[Math.floor(Math.random() * codes.length)];
+};
+
+const App = () => {
+  const [targetCode, setTargetCode] = useState<string>('');
+  const [feedbackMessage, setFeedbackMessage] =
+    useState<string>('Eyes on the screen');
+  const [correctKeyCount, setCorrectKeyCount] = useState<number>(0);
+  const [missedKeyCount, setMissedKeyCount] = useState<number>(0);
+  const [secondsRemaining, setSecondsRemaining] = useState<number>(60);
+
+  useEffect(() => {
+    if (targetCode === '') {
+      setTargetCode(getNextCode());
+    }
+  }, []);
 
   // Add an event listener to handle key presses anywhere on the page
   // Reference: https://stackoverflow.com/questions/61740073/how-to-detect-keydown-anywhere-on-page-in-a-react-app
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event?.code === targetCode) {
+      setCorrectKeyCount((prev) => prev + 1);
+      setTargetCode(getNextCode());
+    } else {
+      setMissedKeyCount((prev) => prev + 1);
+    }
+  };
+
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
 
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    console.log(event);
-  };
+  }, [targetCode]);
 
   return (
     <section id="keyboard">
+      <div className="keyboard__feedback">{feedbackMessage}</div>
       <div className="keyboard__container">
-        <div className="keyboard__row">
-          <button id="192" className="keyboard__key">
-            `
-          </button>
-          <button id="49" className="keyboard__key">
-            1
-          </button>
-          <button id="50" className="keyboard__key">
-            2
-          </button>
-          <button id="51" className="keyboard__key">
-            3
-          </button>
-          <button id="52" className="keyboard__key">
-            4
-          </button>
-          <button id="53" className="keyboard__key">
-            5
-          </button>
-          <button id="54" className="keyboard__key">
-            6
-          </button>
-          <button id="55" className="keyboard__key">
-            7
-          </button>
-          <button id="56" className="keyboard__key">
-            8
-          </button>
-          <button id="57" className="keyboard__key">
-            9
-          </button>
-          <button id="96" className="keyboard__key">
-            0
-          </button>
-          <button id="173" className="keyboard__key">
-            -
-          </button>
-          <button id="61" className="keyboard__key">
-            =
-          </button>
-          <button id="46" className="keyboard__key key__special key__del">
-            DEL
-          </button>
-        </div>
-        <div className="keyboard__row">
-          <button className="keyboard__key key__special key__tab">TAB</button>
-          <button id="81" className="keyboard__key">
-            Q
-          </button>
-          <button id="87" className="keyboard__key">
-            W
-          </button>
-          <button id="69" className="keyboard__key">
-            E
-          </button>
-          <button id="82" className="keyboard__key">
-            R
-          </button>
-          <button id="84" className="keyboard__key">
-            T
-          </button>
-          <button id="89" className="keyboard__key">
-            Y
-          </button>
-          <button id="85" className="keyboard__key">
-            U
-          </button>
-          <button id="73" className="keyboard__key">
-            I
-          </button>
-          <button id="79" className="keyboard__key">
-            O
-          </button>
-          <button id="80" className="keyboard__key">
-            P
-          </button>
-          <button id="219" className="keyboard__key">{`[`}</button>
-          <button id="221" className="keyboard__key">{`]`}</button>
-          <button id="220" className="keyboard__key">
-            \
-          </button>
-        </div>
-        <div className="keyboard__row">
-          <button id="20" className="keyboard__key key__special key__caps">
-            CAPS
-          </button>
-          <button id="65" className="keyboard__key">
-            A
-          </button>
-          <button id="83" className="keyboard__key">
-            S
-          </button>
-          <button id="68" className="keyboard__key">
-            D
-          </button>
-          <button id="70" className="keyboard__key">
-            F
-          </button>
-          <button id="71" className="keyboard__key">
-            G
-          </button>
-          <button id="72" className="keyboard__key">
-            H
-          </button>
-          <button id="74" className="keyboard__key">
-            J
-          </button>
-          <button id="75" className="keyboard__key">
-            K
-          </button>
-          <button id="76" className="keyboard__key">
-            L
-          </button>
-          <button id="59" className="keyboard__key">
-            ;
-          </button>
-          <button id="222" className="keyboard__key">
-            '
-          </button>
-          <button id="13" className="keyboard__key key__special key__enter">
-            ENTER
-          </button>
-        </div>
-        <div className="keyboard__row">
-          <button id="16" className="keyboard__key key__special key__shift">
-            SHIFT
-          </button>
-          <button id="90" className="keyboard__key">
-            Z
-          </button>
-          <button id="88" className="keyboard__key">
-            X
-          </button>
-          <button id="67" className="keyboard__key">
-            C
-          </button>
-          <button id="86" className="keyboard__key">
-            V
-          </button>
-          <button id="66" className="keyboard__key">
-            B
-          </button>
-          <button id="78" className="keyboard__key">
-            N
-          </button>
-          <button id="77" className="keyboard__key">
-            M
-          </button>
-          <button id="188" className="keyboard__key">
-            ,
-          </button>
-          <button id="190" className="keyboard__key">
-            .
-          </button>
-          <button id="191" className="keyboard__key">
-            /
-          </button>
-          <button id="16" className="keyboard__key key__special key__shift">
-            SHIFT
-          </button>
-        </div>
+        {keys.map((row, index) => (
+          <KeyboardRow
+            key={`keyboard-row-${index}`}
+            row={row}
+            targetCode={targetCode}
+          />
+        ))}
       </div>
     </section>
   );
-}
+};
+
+const KeyboardRow: React.FC<Row & { targetCode: string }> = ({
+  row,
+  targetCode
+}) => {
+  return (
+    <div className="keyboard__row">
+      {row.map((key) => (
+        <KeyboardKey
+          key={`key-${key.code}`}
+          code={key.code}
+          text={key.text}
+          classes={key.classes}
+          isJiggling={targetCode === key.code}
+        />
+      ))}
+    </div>
+  );
+};
+
+const KeyboardKey: React.FC<Key> = ({ code, text, classes, isJiggling }) => {
+  return (
+    <button
+      id={`key-${code}`}
+      className={`keyboard__key ${classes} ${isJiggling && 'key__jiggling'}`}
+    >
+      {text}
+    </button>
+  );
+};
 
 export default App;
